@@ -27,7 +27,7 @@ function ContactForm() {
 	function onSubmit(values: z.infer<typeof contactSchema>) {
 		setIsLoading(true)
 		const telegramBotId = process.env.NEXT_PUBLIC_TETELGRAM_BOT_API!
-		const telegramChatId = process.env.NEXT_PUBLIC_TETELGRAM_CHAT_API!
+		const telegramChatId = process.env.NEXT_PUBLIC_TETELGRAM_CHAT_ID!
 
 		const promise = fetch(
 			`https://api.telegram.org/bot${telegramBotId}/sendMessage`,

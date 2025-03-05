@@ -4,6 +4,7 @@ import { getBlogs } from "@/service/blog.service";
 
 async function HomePage() {
   const blogs = await getBlogs();
+
   return (
     <div className="max-w-6xl mx-auto">
       <div className="relative min-h-[60vh] flex items-center justify-center">
@@ -16,7 +17,7 @@ async function HomePage() {
         <span>Recent posts</span>
       </h2>
 
-      <div className="flex flex-col space-y-24 mt-24 max-md:mt-16 max-md:px-6">
+      <div className="flex flex-col space-y-24 mt-24">
         {blogs.map((blog) => (
           <BlogCard key={blog.title} {...blog} isVertical={false} />
         ))}

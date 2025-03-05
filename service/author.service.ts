@@ -1,77 +1,71 @@
-import { IAuthor, IBlog } from "@/types";
-import request, { gql } from "graphql-request";
-import { cache } from "react";
+import { IAuthor } from '@/types'
+import request, { gql } from 'graphql-request'
 
-const grapghqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!;
+const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!
 
-interface ITypeAuthor extends IAuthor {
-  blogs: IBlog[];
+export const getAuthors = async () => {
+	const query = gql`
+		query GetAuthors {
+			authors {
+				name
+				id
+				bio
+				image {
+					url
+				}
+				blogs {
+					id
+				}
+			}
+		}
+	`
+
+	const { authors } = await request<{ authors: IAuthor[] }>(graphqlAPI, query)
+	return authors
 }
 
-export const getAuthors = cache(async () => {
-  const query = gql`
-    query MyQuery {
-      authors {
-        bio
-        name
-        image {
-          url
-        }
-        slug
-      }
-    }
-  `;
+export const getDetaileddAuthor = async (id: string) => {
+	const query = gql`
+		query MyQuery($id: ID) {
+			author(where: { id: $id }) {
+				bio
+				image {
+					url
+				}
+				name
+				blogs {
+					description
+					author {
+						name
+						image {
+							url
+						}
+						bio
+					}
+					content {
+						html
+					}
+					createdAt
+					image {
+						url
+					}
+					slug
+					tag {
+						name
+						slug
+					}
+					category {
+						name
+						slug
+					}
+					title
+				}
+			}
+		}
+	`
 
-  const { authors } = await request<{ authors: IAuthor[] }>(grapghqlAPI, query);
-  return authors;
-});
-
-export const getAuthor = async (slug: string) => {
-  const query = gql`
-    query MyQuery($slug: String!) {
-      author(where: { slug: $slug }) {
-        bio
-        image {
-          url
-        }
-        name
-        slug
-        blogs {
-          title
-          author {
-            bio
-            name
-            image {
-              url
-            }
-            slug
-          }
-          category {
-            name
-            slug
-          }
-          description
-          tag {
-            name
-            slug
-          }
-          createdAt
-          image {
-            url
-          }
-          content {
-            html
-          }
-          slug
-        }
-      }
-    }
-  `;
-
-  const { author } = await request<{
-    author: ITypeAuthor;
-  }>(grapghqlAPI, query, {
-    slug,
-  });
-  return author;
-};
+	const { author } = await request<{
+		author: IAuthor
+	}>(graphqlAPI, query, { id })
+	return author
+}

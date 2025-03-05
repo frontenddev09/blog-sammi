@@ -1,13 +1,13 @@
+import { cn, getReadingTime } from "@/lib/utils";
 import { IBlog } from "@/types";
+import { format } from "date-fns";
 import { CalendarDays, Clock, Dot, Layers2, Minus, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
-import { cn, getReadingTime } from "@/lib/utils";
-import { format } from "date-fns";
 
 interface Props extends IBlog {
-  isVertical: boolean;
+  isVertical?: boolean;
 }
 
 function BlogCard(blog: Props) {
@@ -15,11 +15,11 @@ function BlogCard(blog: Props) {
     <div
       className={cn(
         "grid gap-4 group",
-        blog.isVertical ? "grid-cols-1" : "grid-cols-2 max-md:grid-cols-1"
+        blog.isVertical ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
       )}
     >
       <Link href={`/blogs/${blog.slug}`}>
-        <div className="relative bg-secondary rounded-md ">
+        <div className="relative bg-secondary rounded-md">
           <Image
             width={650}
             height={335}
@@ -30,8 +30,8 @@ function BlogCard(blog: Props) {
         </div>
       </Link>
       <div className="flex flex-col space-y-4">
-        {/* Time info */}
-        <Link href={`blogs/${blog.slug}`}>
+        <Link href={`/blogs/${blog.slug}`} className="flex flex-col space-y-4">
+          {/* Time info */}
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <CalendarDays className="w-5 h-5" />
@@ -52,12 +52,10 @@ function BlogCard(blog: Props) {
             {blog.description}
           </p>
         </Link>
+
         {/* Author */}
         <div className="flex items-center gap-4">
-          <Link
-            href={`/authors/${blog.author.slug}`}
-            className="flex items-center gap-2 cursor-pointer"
-          >
+          <div className="flex items-center gap-2">
             <Image
               src={blog.author.image.url}
               alt="author"
@@ -66,26 +64,22 @@ function BlogCard(blog: Props) {
               className="object-cover rounded-sm"
             />
             <p>by {blog.author.name}</p>
-          </Link>
+          </div>
           <Dot />
-          <Link
-            className="cursor-pointer flex items-center gap-2"
-            href={`/tags/${blog.tag.slug}`}
-          >
-            <Badge variant={"secondary"}>
-              <Tag className="w-3 h-3 me-2" />
-              {blog.tag.name}
-            </Badge>
-          </Link>
-          <Link
-            className="cursor-pointer flex items-center gap-2"
-            href={`/categories/${blog.category.slug}`}
-          >
-            <Badge variant={"outline"}>
-              <Layers2 className="w-3 h-3 me-2" />
-              {blog.category.name}
-            </Badge>
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href={`/tags/${blog.tag.slug}`}>
+              <Badge variant={"secondary"} role="button">
+                <Tag className="w-3 h-3 me-2" />
+                {blog.tag.name}
+              </Badge>
+            </Link>
+            <Link href={`/categories/${blog.category.slug}`}>
+              <Badge variant={"outline"} role="button">
+                <Layers2 className="w-3 h-3 me-2" />
+                {blog.category.name}
+              </Badge>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

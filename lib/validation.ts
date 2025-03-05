@@ -1,9 +1,7 @@
-"use client";
-
-import { z } from "zod";
+import { z } from 'zod'
 
 export const contactSchema = z.object({
-  message: z.string().min(10),
-  name: z.string().min(3),
-  email: z.string().email(),
-});
+	message: z.string().min(10),
+	email: z.string().email(),
+	name: z.string().min(3),
+})

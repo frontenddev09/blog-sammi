@@ -1,70 +1,67 @@
-import { IBlog, ITypeCategoryAndTags } from "@/types";
-import request, { gql } from "graphql-request";
-import { cache } from "react";
+import { IBlog, ICategoryAndTags } from '@/types'
+import request, { gql } from 'graphql-request'
+import { cache } from 'react'
 
-const grapghqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!;
+const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!
 
 export const getCategories = async () => {
-  const query = `
-    query MyQuery {
-    categories {
-        name
-        slug
-         blogs {
-          id
-          
-        }
-      }
-    }
-  `;
+	const query = gql`
+		query MyQuery {
+			categories {
+				name
+				slug
+				blogs {
+					id
+				}
+			}
+		}
+	`
 
-  const { categories } = await request<{ categories: ITypeCategoryAndTags[] }>(
-    grapghqlAPI,
-    query
-  );
-  return categories;
-};
+	const { categories } = await request<{ categories: ICategoryAndTags[] }>(
+		graphqlAPI,
+		query
+	)
+	return categories
+}
 
 export const getBlogsByCategory = cache(async (slug: string) => {
-  const query = gql`
-    query MyQuery($slug: String!) {
-      category(where: { slug: $slug }) {
-        blogs {
-          title
-          description
-          author {
-            bio
-            name
-            image {
-              url
-            }
-          }
-          category {
-            name
-            slug
-          }
-          tag {
-            name
-            slug
-          }
-          createdAt
-          image {
-            url
-          }
-          content {
-            html
-          }
-          slug
-        }
-        name
-      }
-    }
-  `;
+	const query = gql`
+		query MyQuery($slug: String!) {
+			category(where: { slug: $slug }) {
+				blogs {
+					description
+					author {
+						name
+						image {
+							url
+						}
+						bio
+					}
+					content {
+						html
+					}
+					createdAt
+					image {
+						url
+					}
+					slug
+					tag {
+						name
+						slug
+					}
+					category {
+						name
+						slug
+					}
+					title
+				}
+				name
+			}
+		}
+	`
 
-  const { category } = await request<{
-    category: { blogs: IBlog[]; name: string };
-  }>(grapghqlAPI, query, {
-    slug,
-  });
-  return category;
-});
+	const { category } = await request<{
+		category: { blogs: IBlog[]; name: string }
+	}>(graphqlAPI, query, { slug })
+	return category
+})
