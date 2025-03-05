@@ -1,5 +1,6 @@
 import { IAuthor, IBlog } from "@/types";
 import request, { gql } from "graphql-request";
+import { cache } from "react";
 
 const grapghqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!;
 
@@ -7,7 +8,7 @@ interface ITypeAuthor extends IAuthor {
   blogs: IBlog[];
 }
 
-export const getAuthors = async () => {
+export const getAuthors = cache(async () => {
   const query = gql`
     query MyQuery {
       authors {
@@ -23,7 +24,7 @@ export const getAuthors = async () => {
 
   const { authors } = await request<{ authors: IAuthor[] }>(grapghqlAPI, query);
   return authors;
-};
+});
 
 export const getAuthor = async (slug: string) => {
   const query = gql`

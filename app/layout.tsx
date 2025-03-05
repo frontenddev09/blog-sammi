@@ -3,6 +3,8 @@ import { ChildProps } from "@/types";
 import type { Metadata } from "next";
 import { Crete_Round, Work_Sans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
+import NextTopLoader from "nextjs-toploader";
 
 const creteRound = Crete_Round({
   weight: ["400"],
@@ -16,9 +18,25 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://test-blog.sammi.ac"),
   title: "Sammi dasturlashga oid maqolalar",
   description:
     "Dasturlash haqida yangiliklar, maslahatlar, va dasturlash sohasidagi eng soʻnggi xabarlar. Bizning blogda dasturlashni oʻrganish va rivojlantirish uchun qoʻllanma topishingiz mumkin.",
+  authors: [{ name: "Ozodbek Kasimov", url: "https://sammi.ac" }],
+  icons: { icon: "/favicon.png" },
+  keywords: "cms blog test, hygraph, next js, react js, sammi, bloglar",
+  openGraph: {
+    title: "Sammi dasturlashga oid maqolalar",
+    description:
+      "Dasturlash haqida yangiliklar, maslahatlar, va dasturlash sohasidagi eng soʻnggi xabarlar. Bizning blogda dasturlashni oʻrganish va rivojlantirish uchun qoʻllanma topishingiz mumkin.",
+    type: "website",
+    url: "https://test-blog.sammi.ac",
+    locale: "en_EN",
+    images: "https://media.graphassets.com/kXL006lyRnW46IKTHdHs",
+    countryName: "Uzbekistan",
+    siteName: "Sammi",
+    emails: "info@sammi.ac",
+  },
 };
 
 function RootLayout({ children }: ChildProps) {
@@ -33,7 +51,9 @@ function RootLayout({ children }: ChildProps) {
           enableSystem
           disableTransitionOnChange
         >
+          <NextTopLoader showSpinner={false} />
           {children}
+          <Toaster position="top-center" />
         </ThemeProvider>
       </body>
     </html>

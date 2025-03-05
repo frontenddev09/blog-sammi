@@ -18,7 +18,7 @@ function BlogCard(blog: Props) {
         blog.isVertical ? "grid-cols-1" : "grid-cols-2 max-md:grid-cols-1"
       )}
     >
-      <Link href={`blogs/${blog.slug}`}>
+      <Link href={`/blogs/${blog.slug}`}>
         <div className="relative bg-secondary rounded-md ">
           <Image
             width={650}
@@ -35,12 +35,7 @@ function BlogCard(blog: Props) {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <CalendarDays className="w-5 h-5" />
-              <p>
-                {format(
-                  new Date("2025-02-24T10:46:54.190018+00:00"),
-                  "MMM dd, yyyy"
-                )}
-              </p>
+              <p>{format(new Date(blog.createdAt), "MMM dd, yyyy")}</p>
             </div>
             <Minus />
             <div className="flex items-center gap-2">

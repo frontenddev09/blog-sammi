@@ -6,6 +6,22 @@ import { Dot, Home } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const author = await getAuthor(params.slug);
+
+  return {
+    title: author.name,
+    description: author.bio,
+    openGraph: {
+      images: author.image.url,
+    },
+  };
+}
+
 const Page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const author = await getAuthor(slug);
   return (
