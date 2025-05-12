@@ -10,9 +10,10 @@ export const metadata: Metadata = {
 
 async function ArchivePage() {
 	const blogs = await getArchiveBlogs()
+	const key = Math.floor(Math.random() * 1000)
 
 	return (
-		<div className='max-w-6xl mx-auto'>
+		<div className='max-w-6xl mx-auto' key={key}>
 			<div className='relative min-h-[40vh] flex items-center justify-end flex-col'>
 				<p className='text-lg text-muted-foreground'>Showing posts from</p>
 				<h2 className='text-center text-4xl section-title font-creteRound mt-2'>
