@@ -64,8 +64,8 @@ export const getDetaileddAuthor = async (id: string) => {
 		}
 	`
 
-	const { author } = await request<{
-		author: IAuthor
-	}>(graphqlAPI, query, { id })
+	const { author } = await request<{ author: IAuthor }>(graphqlAPI, query, {
+		id,
+	})
 	return author
 }
