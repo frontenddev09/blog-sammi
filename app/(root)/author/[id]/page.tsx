@@ -2,8 +2,9 @@ import BlogCard from '@/components/cards/blog'
 import { getDetaileddAuthor } from '@/service/author.service'
 import Image from 'next/image'
 
-async function Page({ params }: { params: { id: string } }) {
-	const author = await getDetaileddAuthor(params.id)
+async function Page({ params }: { params: Promise<{ id: string }> }) {
+	const { id } = await params
+	const author = await getDetaileddAuthor(id)
 
 	return (
 		<div className='max-w-6xl mx-auto pt-36'>
