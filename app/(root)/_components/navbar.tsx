@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import GlobalSearch from './global-search'
+import Image from 'next/image'
 
 function Navbar() {
 	const pathname = usePathname()
@@ -14,7 +15,8 @@ function Navbar() {
 		<div className='h-[10vh] backdrop-blur-sm border-b fixed z-40 inset-0 bg-background'>
 			<div className='container max-w-6xl mx-auto h-[10vh] w-full flex items-center justify-between'>
 				{/* Logo */}
-				<Link href={'/'}>
+				<Link href={'/'} className='flex items-center'>
+					<Image src='/logo.png' alt='logo' width={40} height={40} />
 					<h1 className='text-4xl font-creteRound'>DevBlog</h1>
 				</Link>
 				{/* Nav links */}
